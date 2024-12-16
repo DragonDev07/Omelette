@@ -1,0 +1,33 @@
+# Ignore build directory
+builddir/
+
+# Ignore Meson build files
+*.ninja
+*.ninja_deps
+*.ninja_log
+meson-logs/
+meson-info/
+meson-private/
+compile_commands.json
+
+# Ignore Visual Studio Code settings
+.vscode/
+
+# Ignore compiled object files
+*.o
+*.obj
+
+# Ignore static libraries
+*.a
+*.lib
+
+# Ignore executable files
+*.exe
+*.out
+*.app
+
+# Ignore temporary files
+*.tmp
+*.log
+*.bak
+*.swp
