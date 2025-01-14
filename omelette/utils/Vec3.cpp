@@ -42,6 +42,15 @@ Vec3 Vec3::operator+=(const Vec3& other) {
     return *this;
 }
 
+/* Vec3 Compound Subtraction Operator Overload
+    - Subtracts the x, y, and z components of the two vectors and assigns the result to the vector. */
+Vec3 Vec3::operator-=(const Vec3& other) {
+    x -= other.x;
+    y -= other.y;
+    z -= other.z;
+    return *this;
+}
+
 /* Vec3 Dot Product
     - Returns the dot product of the vector with another vector. */
 float Vec3::dot(const Vec3& other) const {

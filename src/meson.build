@@ -1,2 +1,0 @@
-subdir('omelette')
-subdir('simulation')

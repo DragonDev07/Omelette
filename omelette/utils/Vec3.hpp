@@ -14,6 +14,7 @@ class Vec3 {
         Vec3 operator*(float scalar) const; // Multiplication of vector by a scalar
         Vec3 operator/(float scalar) const; // Division of vector by a scalar
         Vec3 operator+=(const Vec3& other); // Compound addition of two vectors
+        Vec3 operator-=(const Vec3& other); // Compound subtraction of two vectors
 
         // Vector operations
         float dot(const Vec3& other) const; // Dot product of two vectors
