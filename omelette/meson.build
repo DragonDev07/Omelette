@@ -11,5 +11,10 @@ omelette_lib = static_library(
   'omelette',
   omelette_sources,
   include_directories: include_directories('.'),
-  cpp_args: ['-g'] # Add debugging symbols,,
+  cpp_args: ['-g'] # Add debugging symbols,,,
+)
+
+omelette_dep = declare_dependency(
+  include_directories: include_directories('.'),
+  link_with: omelette_lib,
 )

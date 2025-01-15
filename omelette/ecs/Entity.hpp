@@ -1,14 +1,8 @@
-#pragma once
-#include <cstdint>
+#ifndef OMELETTE_ECS_ENTITY_HPP
+#define OMELETTE_ECS_ENTITY_HPP
 
-class Entity {
-    private:
-        std::uint32_t id; // Unique identifier for the entity
+namespace omelette::ecs {
+    class Entity {};
+}; // namespace omelette::ecs
 
-    public:
-        // Constructor
-        Entity(std::uint32_t id);
-
-        // Get the unique identifier of the entity
-        std::uint32_t getId() const;
-};
+#endif // OMELETTE_ECS_ENTITY_HPP

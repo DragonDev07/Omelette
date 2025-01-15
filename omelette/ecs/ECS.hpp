@@ -1,23 +1,51 @@
-#pragma once
-#include <vector>
+#ifndef OMELETTE_ECS_ECS_HPP
+#define OMELETTE_ECS_ECS_HPP
+
 #include <memory>
 #include <unordered_map>
-#include "Entity.hpp"
+#include <vector>
+
 #include "Component.hpp"
+#include "Entity.hpp"
 
-class ECS {
-    private:
-        std::vector<std::unique_ptr<Entity>> entities; // List of entities in the ECS
-        std::unordered_map<Entity*, std::vector<std::unique_ptr<Component>>> entityComponents; // Map of entities to their components
+namespace omelette::ecs {
+    class ECS {
+      private:
+        // List of entities
+        std::vector<std::unique_ptr<omelette::ecs::Entity>> entities;
 
-    public:
-        // Functions
-        void addEntity(std::unique_ptr<Entity> entity); // Add an entity to the ECS
-        void addComponentToEntity(Entity& entity, std::unique_ptr<Component> component); // Add a component to an entity
-        const std::vector<std::unique_ptr<Entity>>& getEntities() const; // Get the list of entities
-        const std::vector<std::unique_ptr<Component>>& getComponents() const; // Get the list of components
-        const std::vector<std::unique_ptr<Component>>& getComponentsForEntity(const Entity& entity) const; // Get components for a specific entity
+        // Map of entities to their components
+        std::unordered_map<
+            omelette::ecs::Entity*,
+            std::vector<std::unique_ptr<omelette::ecs::Component>>>
+            entityComponents;
 
-        template <typename T>
-        std::vector<Entity*> getEntitiesByComponent() const; // Get entities with a specific component type
-};
+      public:
+        // Add an entity to the ECS
+        void addEntity(std::unique_ptr<omelette::ecs::Entity> entity);
+
+        // Add a component to an entity.
+        void addComponentToEntity(
+            omelette::ecs::Entity& entity,
+            std::unique_ptr<omelette::ecs::Component> component
+        );
+
+        // Get the list of entities
+        const std::vector<std::unique_ptr<omelette::ecs::Entity>>&
+        getEntities() const;
+
+        // Get the list of components
+        const std::vector<std::unique_ptr<omelette::ecs::Component>>&
+        getComponents() const;
+
+        // Get components for a specific entity
+        const std::vector<std::unique_ptr<omelette::ecs::Component>>&
+        getComponentsForEntity(const omelette::ecs::Entity& entity) const;
+
+        // Get entities with a specific component type
+        template<typename T>
+        std::vector<omelette::ecs::Entity*> getEntitiesByComponent() const;
+    };
+}; // namespace omelette::ecs
+
+#endif // OMELETTE_ECS_ECS_HPP

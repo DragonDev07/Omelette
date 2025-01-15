@@ -1,31 +1,38 @@
-#pragma once
-#include "../Component.hpp"
-#include "../../utils/Vec3.hpp"
-#include <cstdint>
-#include <vector>
-#include <memory>
+#ifndef OMELETTE_ECS_COMPONENTS_RIGIDBODYCOMPONENT_HPP
+#define OMELETTE_ECS_COMPONENTS_RIGIDBODYCOMPONENT_HPP
 
-class RigidBodyComponent : public Component {
-    public:
+#include <cstdint>
+#include <memory>
+#include <vector>
+
+#include "../../utils/Vec3.hpp"
+#include "../Component.hpp"
+
+namespace omelette::ecs::components {
+    class RigidBodyComponent: public omelette::ecs::Component {
+      public:
         Vec3 position; // Position of the rigid body
         Vec3 velocity; // Velocity of the rigid body
         Vec3 acceleration; // Acceleration of the rigid body
         float mass; // Mass of the rigid body
-
-        // Shape data
         std::vector<Vec3> vertices; // Vertex buffer object (VBO)
         std::vector<uintptr_t> indices; // Element buffer object (EBO)
 
-        // Constructors
-        RigidBodyComponent(); // Default constructor
-        RigidBodyComponent(const Vec3& position, const Vec3& velocity, const Vec3& acceleration, float mass, const std::vector<Vec3>& vertices, const std::vector<uintptr_t>& indices); // Parameterized constructor
+        // Parameterized constructor
+        RigidBodyComponent(
+            const Vec3& position,
+            const Vec3& velocity,
+            const Vec3& acceleration,
+            float mass,
+            const std::vector<Vec3>& vertices,
+            const std::vector<uintptr_t>& indices
+        );
 
-        // Destructor
-        ~RigidBodyComponent() override = default;
+        // Apply a force to the rigid body
+        void applyForce(const Vec3& force);
 
-        // Functions
-        void applyForce(const Vec3& force); // Apply a force to the rigid body
-        void update(float deltaTime) override; // Update the rigid body's position and velocity
+        // Update the rigid body's position and velocity
+        void update(float deltaTime) override;
 
         // Clone function for copying components
         std::unique_ptr<Component> clone() const override;
@@ -33,4 +40,7 @@ class RigidBodyComponent : public Component {
         // Getters for shape data
         const std::vector<Vec3>& getVertices() const;
         const std::vector<uintptr_t>& getIndices() const;
-};
+    };
+}; // namespace omelette::ecs::components
+
+#endif // OMELETTE_ECS_COMPONENTS_RIGIDBODYCOMPONENT_HPP

@@ -10,6 +10,9 @@ meson-info/
 meson-private/
 compile_commands.json
 
+# Ignore Cache files
+.cache/
+
 # Ignore Visual Studio Code settings
 .vscode/
 
