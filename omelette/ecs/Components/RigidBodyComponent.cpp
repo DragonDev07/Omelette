@@ -7,11 +7,11 @@ namespace omelette::ecs::components {
     - Sets the rigid body's position, velocity, acceleration, and mass to the given values.
     - Initializes the shape data with the given vertices and indices. */
     RigidBodyComponent::RigidBodyComponent(
-        const Vec3& position,
-        const Vec3& velocity,
-        const Vec3& acceleration,
+        const utils::Vec3& position,
+        const utils::Vec3& velocity,
+        const utils::Vec3& acceleration,
         float mass,
-        const std::vector<Vec3>& vertices,
+        const std::vector<utils::Vec3>& vertices,
         const std::vector<uintptr_t>& indices
     ) :
         position(position),
@@ -25,7 +25,7 @@ namespace omelette::ecs::components {
     - Applies a force to the rigid body by adding the force divided by the mass to the acceleration.
     - Parameters:
         - force: The force to apply to the rigid body. */
-    void RigidBodyComponent::applyForce(const Vec3& force) {
+    void RigidBodyComponent::applyForce(const utils::Vec3& force) {
         acceleration += force / mass;
     }
 
@@ -46,7 +46,7 @@ namespace omelette::ecs::components {
         }
 
         // Reset acceleration to zero
-        acceleration = Vec3();
+        acceleration = utils::Vec3();
     }
 
     /* Clone
@@ -60,7 +60,7 @@ namespace omelette::ecs::components {
     /* Get Vertices
     - Returns the vertices of the shape.
     - Returns: The vertices of the shape. */
-    const std::vector<Vec3>& RigidBodyComponent::getVertices() const {
+    const std::vector<utils::Vec3>& RigidBodyComponent::getVertices() const {
         return vertices;
     }
 
