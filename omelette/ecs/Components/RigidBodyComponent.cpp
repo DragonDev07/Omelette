@@ -1,6 +1,8 @@
 #include "RigidBodyComponent.hpp"
 
-#include <cstdint>
+#include <glm/gtc/matrix_transform.hpp>
+
+#include "ecs/Components/MeshComponent.hpp"
 
 namespace omelette::ecs::components {
     /* RigidBodyComponent Constructor
@@ -11,28 +13,18 @@ namespace omelette::ecs::components {
         const utils::Vec3& velocity,
         const utils::Vec3& acceleration,
         float mass,
-        const std::vector<utils::Vec3>& vertices,
-        const std::vector<uintptr_t>& indices
+        MeshComponent* meshComponent
     ) :
         position(position),
         velocity(velocity),
         acceleration(acceleration),
         mass(mass),
-        vertices(vertices),
-        indices(indices) {}
-
-    /* Apply Force
-    - Applies a force to the rigid body by adding the force divided by the mass to the acceleration.
-    - Parameters:
-        - force: The force to apply to the rigid body. */
-    void RigidBodyComponent::applyForce(const utils::Vec3& force) {
-        acceleration += force / mass;
-    }
+        meshComponent(meshComponent) {}
 
     /* Update
-    - Updates the rigid body's position and velocity based on the current acceleration and time step.
-    - Parameters:
-        - deltaTime: The time step to update the rigid body by. */
+        - Updates the rigid body's position and velocity based on the current acceleration and time step.
+        - Parameters:
+            - deltaTime: The time step to update the rigid body by. */
     void RigidBodyComponent::update(float deltaTime) {
         // Update velocity based on acceleration
         velocity += acceleration * deltaTime;
@@ -40,9 +32,16 @@ namespace omelette::ecs::components {
         // Update position based on velocity
         position += velocity * deltaTime;
 
-        // Update vertex positions based on rigid body position
-        for (auto& vertex : vertices) {
-            vertex += velocity * deltaTime;
+        // Create transformation matrix
+        glm::mat4 transform = glm::mat4(1.0f);
+        transform = glm::translate(
+            transform,
+            glm::vec3(position.x, position.y, position.z)
+        );
+
+        // Update mesh component with new transform
+        if (meshComponent) {
+            meshComponent->transform(transform);
         }
 
         // Reset acceleration to zero
@@ -50,24 +49,18 @@ namespace omelette::ecs::components {
     }
 
     /* Clone
-    - Creates a copy of the rigid body component.
-    - Returns: A unique pointer to the copied component. */
+        - Creates a copy of the rigid body component.
+        - Returns: A unique pointer to the copied component. */
     std::unique_ptr<omelette::ecs::Component>
     RigidBodyComponent::clone() const {
         return std::make_unique<RigidBodyComponent>(*this);
     }
 
-    /* Get Vertices
-    - Returns the vertices of the shape.
-    - Returns: The vertices of the shape. */
-    const std::vector<utils::Vec3>& RigidBodyComponent::getVertices() const {
-        return vertices;
-    }
-
-    /* Get Indices
-    - Returns the indices of the shape.
-    - Returns: The indices of the shape. */
-    const std::vector<uintptr_t>& RigidBodyComponent::getIndices() const {
-        return indices;
+    /* Apply Force
+    - Applies a force to the rigid body by adding the force divided by the mass to the acceleration.
+    - Parameters:
+        - force: The force to apply to the rigid body. */
+    void RigidBodyComponent::applyForce(const utils::Vec3& force) {
+        acceleration += force / mass;
     }
 }; // namespace omelette::ecs::components
